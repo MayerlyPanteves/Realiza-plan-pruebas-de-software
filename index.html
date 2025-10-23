@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan de pruebas - Sistema de biblioteca S</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        nav {
+            background-color: var(--dark);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        section {
+            padding: 3rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .feature-list {
+            list-style-type: none;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .badge-info {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .risk-matrix {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        
+        .risk-item {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .risk-high {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .risk-medium {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .risk-low {
+            border-left: 4px solid var(--success);
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--secondary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 4px solid var(--secondary);
+            border-radius: 50%;
+            top: 15px;
+            right: -13px;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .right::after {
+            left: -13px;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .repo-link {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .repo-link:hover {
+            background-color: #2980b9;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .right {
+                left: 0;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .nav-link {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Plan de Pruebas de Software</h1>
+            <p class="subtitle">Sistema de gestión de biblioteca - Análisis de estrategias, metodologías y herramientas para la implementación de pruebas</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container nav-container">
+            <a href="#requerimientos" class="nav-link">Requerimientos</a>
+            <a href="#funcionalidades" class="nav-link">Funcionalidades</a>
+            <a href="#estrategia" class="nav-link">Estrategia</a>
+            <a href="#entornos" class="nav-link">Entornos</a>
+            <a href="#cronograma" class="nav-link">Cronograma</a>
+            <a href="#herramientas" class="nav-link">Herramientas</a>
+            <a href="#riesgos" class="nav-link">Riesgos</a>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <section id="introduccion">
+            <h2>Introducción</h2>
+            <div class="card">
+                <p>Este plan de pruebas describe la estrategia, los recursos y el cronograma para las actividades de prueba del sistema de gestión de biblioteca. El objetivo es garantizar que el software cumpla con los requerimientos establecidos y funcione correctamente antes de su implementación en producción.</p>
+            </div>
+        </section>
+        
+        <section id="requerimientos">
+            <h2>Análisis de requerimientos</h2>
+            
+            <h3>Requerimientos funcionales</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>Gestión de libros</h4>
+                    <ul class="feature-list">
+                        <li>CRUD completo de libros</li>
+                        <li>Búsqueda por diferentes criterios</li>
+                        <li>Clasificación por categorías</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Gestión de usuarios</h4>
+                    <ul class="feature-list">
+                        <li>Registro y administración</li>
+                        <li>Control de permisos</li>
+                        <li>Historial de actividades</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Sistema de préstamos</h4>
+                    <ul class="feature-list">
+                        <li>Préstamo y devolución</li>
+                        <li>Control de disponibilidad</li>
+                        <li>Historial de préstamos</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Requerimientos no funcionales</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>Rendimiento</h4>
+                    <p>Tiempo de respuesta < 3 segundos para operaciones críticas</p>
+                </div>
+                
+                <div class="card">
+                    <h4>Seguridad</h4>
+                    <p>Autenticación y control de acceso robustos</p>
+                </div>
+                
+                <div class="card">
+                    <h4>Usabilidad</h4>
+                    <p>Interfaz intuitiva y responsive para diferentes dispositivos</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="funcionalidades">
+            <h2>Funcionalidades a probar</h2>
+            
+            <h3>Funcionalidades existentes</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>Módulo de Libros</h4>
+                    <ul class="feature-list">
+                        <li>Crear nuevo libro</li>
+                        <li>Listar todos los libros</li>
+                        <li>Buscar libro por ID</li>
+                        <li>Actualizar información</li>
+                        <li>Eliminar libro</li>
+                        <li>Búsqueda por criterios</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Módulo de usuarios</h4>
+                    <ul class="feature-list">
+                        <li>Registrar nuevo usuario</li>
+                        <li>Listar usuarios</li>
+                        <li>Buscar usuario por ID</li>
+                        <li>Actualizar datos</li>
+                        <li>Eliminar usuario</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Módulo de préstamos</h4>
+                    <ul class="feature-list">
+                        <li>Realizar préstamo</li>
+                        <li>Registrar devolución</li>
+                        <li>Consultar préstamos activos</li>
+                        <li>Historial por usuario</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Funcionalidades nuevas</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>Validaciones adicionales</h4>
+                    <ul class="feature-list">
+                        <li>Validación de fechas en préstamos</li>
+                        <li>Control de disponibilidad</li>
+                        <li>Límites de préstamos por usuario</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Reportes y estadísticas</h4>
+                    <ul class="feature-list">
+                        <li>Libros más prestados</li>
+                        <li>Estadísticas por categoría</li>
+                        <li>Reporte de morosidad</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="estrategia">
+            <h2>Estrategia y criterios de pruebas</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>Pruebas unitarias</h4>
+                    <p>Cubrir mínimo 80% del código con pruebas automatizadas</p>
+                    <span class="badge badge-info">Cobertura ≥ 80%</span>
+                </div>
+                
+                <div class="card">
+                    <h4>Pruebas de integración</h4>
+                    <p>Validar comunicación entre módulos y servicios</p>
+                    <span class="badge badge-info">Comunicación validada</span>
+                </div>
+                
+                <div class="card">
+                    <h4>Pruebas de sistema</h4>
+                    <p>Validar funcionalidades completas end-to-end</p>
+                    <span class="badge badge-info">Flujos completos</span>
+                </div>
+                
+                <div class="card">
+                    <h4>Pruebas de aceptación</h4>
+                    <p>Validar con casos de uso reales y stakeholders</p>
+                    <span class="badge badge-info">Aprobación del cliente</span>
+                </div>
+            </div>
+            
+            <h3>Criterios de aceptación</h3>
+            <div class="card">
+                <ul class="feature-list">
+                    <li>Todas las pruebas unitarias deben pasar</li>
+                    <li>Cobertura de código ≥ 80%</li>
+                    <li>Todas las funcionalidades críticas probadas</li>
+                    <li>Rendimiento dentro de parámetros establecidos</li>
+                    <li>Aprobación del equipo de calidad y stakeholders</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="entornos">
+            <h2>Entornos de Trabajo</h2>
+            
+            <h3>Requisitos de hardware</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Desarrollo</th>
+                            <th>Pruebas</th>
+                            <th>Producción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CPU</td>
+                            <td>4 cores</td>
+                            <td>4 cores</td>
+                            <td>8 cores</td>
+                        </tr>
+                        <tr>
+                            <td>RAM</td>
+                            <td>8GB</td>
+                            <td>8GB</td>
+                            <td>16GB</td>
+                        </tr>
+                        <tr>
+                            <td>Almacenamiento</td>
+                            <td>100GB</td>
+                            <td>100GB</td>
+                            <td>200GB</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3>Requisitos de software</h3>
+            <div class="card">
+                <ul class="feature-list">
+                    <li><strong>Sistema operativo:</strong> Windows 10/11, Linux Ubuntu 20.04+</li>
+                    <li><strong>Java:</strong> JDK 17 o superior</li>
+                    <li><strong>Base de datos:</strong> MySQL 8.0 o PostgreSQL 14</li>
+                    <li><strong>Servidor de aplicaciones:</strong> Apache Tomcat 9+</li>
+                    <li><strong>Herramientas de build:</strong> Maven 3.6+</li>
+                    <li><strong>Control de versiones:</strong> Git</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="cronograma">
+            <h2>Cronograma y planificación</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Preparación</h3>
+                        <p><strong>Duración:</strong> 3 días</p>
+                        <p>Configuración de entornos, revisión de requerimientos</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Pruebas Unitarias</h3>
+                        <p><strong>Duración:</strong> 5 días</p>
+                        <p>Desarrollo y ejecución de pruebas unitarias</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Pruebas de Integración</h3>
+                        <p><strong>Duración:</strong> 4 días</p>
+                        <p>Validación de integración entre módulos</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Pruebas de Sistema</h3>
+                        <p><strong>Duración:</strong> 3 días</p>
+                        <p>Pruebas end-to-end</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Pruebas de Aceptación</h3>
+                        <p><strong>Duración:</strong> 2 días</p>
+                        <p>Validación con stakeholders</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Cierre</h3>
+                        <p><strong>Duración:</strong> 1 día</p>
+                        <p>Reporte final y retroalimentación</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="herramientas">
+            <h2>Herramientas de pruebas</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>Pruebas unitarias</h4>
+                    <ul class="feature-list">
+                        <li>JUnit 5 - Framework de pruebas</li>
+                        <li>Mockito - Framework de mocking</li>
+                        <li>JaCoCo - Medición de cobertura</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Pruebas de integración</h4>
+                    <ul class="feature-list">
+                        <li>TestContainers - Pruebas con docker</li>
+                        <li>Spring Boot Test - Utilidades de spring</li>
+                        <li>REST Assured - Pruebas de APIs REST</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Pruebas de rendimiento</h4>
+                    <ul class="feature-list">
+                        <li>JMeter - Pruebas de carga y estrés</li>
+                        <li>Gatling - Pruebas de rendimiento avanzadas</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Automatización</h4>
+                    <ul class="feature-list">
+                        <li>Selenium - Pruebas de interfaz web</li>
+                        <li>Cucumber - Pruebas BDD</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="riesgos">
+            <h2>Identificación de riesgos y contingencias</h2>
+            
+            <div class="risk-matrix">
+                <div class="risk-item risk-high">
+                    <h4>Cambios en requerimientos</h4>
+                    <p><strong>Probabilidad:</strong> Alta</p>
+                    <p><strong>Impacto:</strong> Medio</p>
+                    <p><strong>Mitigación:</strong> Comunicación constante con stakeholders</p>
+                </div>
+                
+                <div class="risk-item risk-high">
+                    <h4>Falta de datos de prueba</h4>
+                    <p><strong>Probabilidad:</strong> Media</p>
+                    <p><strong>Impacto:</strong> Alto</p>
+                    <p><strong>Mitigación:</strong> Crear scripts de datos de prueba</p>
+                </div>
+                
+                <div class="risk-item risk-medium">
+                    <h4>Problemas de entorno</h4>
+                    <p><strong>Probabilidad:</strong> Media</p>
+                    <p><strong>Impacto:</strong> Alto</p>
+                    <p><strong>Mitigación:</strong> Documentación detallada de configuración</p>
+                </div>
+                
+                <div class="risk-item risk-medium">
+                    <h4>Tiempo insuficiente</h4>
+                    <p><strong>Probabilidad:</strong> Media</p>
+                    <p><strong>Impacto:</strong> Alto</p>
+                    <p><strong>Mitigación:</strong> Priorización de pruebas críticas</p>
+                </div>
+            </div>
+            
+            <h3>Plan de contingencias</h3>
+            <div class="card">
+                <ul class="feature-list">
+                    <li><strong>Reserva de tiempo:</strong> 20% adicional en cronograma</li>
+                    <li><strong>Entornos alternativos:</strong> Configuración de entornos de respaldo</li>
+                    <li><strong>Equipo de soporte:</strong> Disponibilidad para problemas críticos</li>
+                    <li><strong>Backup de datos:</strong> Respaldos regulares de datos de prueba</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <h3>Plan de pruebas de software - Sistema biblioteca</h3>
+            <p>Documento completo de estrategia de pruebas para el proyecto de biblioteca</p>
+            <a href="https://github.com/MayerlyPanteves/BibliotecaSpring.git" class="repo-link" target="_blank">Ver Repositorio en GitHub</a>
+        </div>
+    </footer>
+    
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add active class to current section in navigation
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
